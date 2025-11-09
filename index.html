@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>내 버스 도착정보</title>
+</head>
+<body>
+  <h1>버스 도착정보 확인</h1>
+  <label>출발 정류장 ID: <input id="start"></label><br>
+  <label>도착 정류장 ID: <input id="end"></label><br>
+  <button onclick="getBusInfo()">조회</button>
+  <div id="result"></div>
+
+  <script>
+    async function getBusInfo() {
+      const start = document.getElementById("start").value;
+      const end = document.getElementById("end").value;
+      const apiKey = "여기에_본인_API_KEY"; // 공공데이터포털에서 발급받은 키
+
+      // 예시 URL (실제 API 문서에 맞게 수정 필요)
+      const url = `https://apis.data.go.kr/1613000/BusArrivalService/getArrInfoByRoute?serviceKey=${apiKey}&stationId=${start}&routeId=${end}`;
+
+      try {
+        const res = await fetch(url);
+        const text = await res.text(); // XML 응답일 수 있음
+        document.getElementById("result").innerText = text;
+      } catch (err) {
+        document.getElementById("result").innerText = "API 호출 오류: " + err;
+      }
+    }
+  </script>
+</body>
+</html>
